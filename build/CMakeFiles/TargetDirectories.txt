@@ -1,0 +1,3 @@
+/home/hotphotatos/cNcppGameDev/CppOpenGLTest/build/CMakeFiles/CppGraphic.dir
+/home/hotphotatos/cNcppGameDev/CppOpenGLTest/build/CMakeFiles/edit_cache.dir
+/home/hotphotatos/cNcppGameDev/CppOpenGLTest/build/CMakeFiles/rebuild_cache.dir

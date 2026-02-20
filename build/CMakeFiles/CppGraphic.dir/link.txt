@@ -1,0 +1,1 @@
+/usr/bin/g++ -g -Wl,--dependency-file=CMakeFiles/CppGraphic.dir/link.d CMakeFiles/CppGraphic.dir/main.cpp.o CMakeFiles/CppGraphic.dir/src/GraphicLectTest.cpp.o CMakeFiles/CppGraphic.dir/src/GraphicMyTest.cpp.o CMakeFiles/CppGraphic.dir/src/glad.c.o -o CppGraphic  /usr/lib64/libglfw.so.3.4 /usr/lib64/libGLX.so /usr/lib64/libOpenGL.so
