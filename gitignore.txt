@@ -1,0 +1,57 @@
+#################################
+# Build directories // 표준의 방식이라고. 
+#################################
+build/
+cmake-build-*/
+out/
+
+#################################
+# CMake generated files
+#################################
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+compile_commands.json
+CTestTestfile.cmake
+Testing/
+
+#################################
+# Executables / binaries
+#################################
+*.out
+*.exe
+*.o
+*.obj
+*.so
+*.a
+*.lib
+*.dll
+
+#################################
+# Debug / temp
+#################################
+*.log
+*.tmp
+*.swp
+*.swo
+*.stackdump
+
+#################################
+# VSCode
+#################################
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+
+#################################
+# OS
+#################################
+.DS_Store
+Thumbs.db
+
+#################################
+# Clang / GCC
+#################################
+*.dSYM/
