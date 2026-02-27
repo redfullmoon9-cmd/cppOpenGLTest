@@ -23,8 +23,9 @@
 // Activate(t2); //삼각형 2를 처리중인 상태로 설정
 // Draw(); //현재 처리중인 데이터(=삼각형 2)를 화면에 그림
 
-namespace orgOpenGL{
-    int orgMain(void)
+// 전북대 오픈지엘 강의 따라가기 
+namespace orgjOpenGL{
+    int orgJMain(void)
     {
         GLFWwindow* window;
 
@@ -74,7 +75,7 @@ namespace orgOpenGL{
         //데이터의 크기를 전달
         //데이터 포인터 전달
         //데이터 변경이 적을 것이라는 것을 알려줌(GPU의 효율적인 동작을 위한 Hint일 뿐)
-        glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float), positions,	GL_STATIC_DRAW);   //에러 
+        glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float), positions,	GL_STATIC_DRAW); 
 
         /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(window))
