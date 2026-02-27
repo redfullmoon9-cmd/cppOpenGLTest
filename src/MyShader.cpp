@@ -1,6 +1,7 @@
-#include "Shader.hpp"
+#include "MyShader.hpp"
 
-Shader::Shader(const char *vertexPath, const char *fragmentPath)
+//테스트용 shader. 
+MyShader::MyShader(const char *vertexPath, const char *fragmentPath)
 {
     // 1 소스 코드 읽기.
     std::string vertexCode;
@@ -58,17 +59,17 @@ Shader::Shader(const char *vertexPath, const char *fragmentPath)
     glDeleteShader(fragment);
 }
 
-void Shader::use()
+void MyShader::use()
 {
     glUseProgram(ID);
 }
 
-void Shader::setBool(const std::string &name, bool value) const
+void MyShader::setBool(const std::string &name, bool value) const
 {
     glUniform1i(glGetUniformLocation(ID, name.c_str()), (int)value);
 }
 
-void Shader::setInt(const std::string &name, int value) const
+void MyShader::setInt(const std::string &name, int value) const
 {
     // glUniform1i(glGetUniformLocation(ID, name.c_str()), (float)value );
     // glUniform1i(glGetUniformLocation(ID, name.c_str()), (float)value );
@@ -76,11 +77,11 @@ void Shader::setInt(const std::string &name, int value) const
     // glUniform1i(glGetUniformLocation(ID, name.c_str()), (float)value );
 }
 
-void Shader::setFloat(const std::string &name, float value) const
+void MyShader::setFloat(const std::string &name, float value) const
 {
 }
 
-void Shader::checkCompileErrors(unsigned int shader, std::string type)
+void MyShader::checkCompileErrors(unsigned int shader, std::string type)
 {
     int success;
     char infoLog[1024];
