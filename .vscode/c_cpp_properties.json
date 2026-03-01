@@ -2,6 +2,7 @@
     "configurations": [
         {
             "name": "MinGW64",
+            "configurationProvider": "ms-vscode.cmake-tools", //새로 추가 경로 파일 인식 못할때 
             "includePath": [
                 "${workspaceFolder}/",
                 "/usr/include/**",
