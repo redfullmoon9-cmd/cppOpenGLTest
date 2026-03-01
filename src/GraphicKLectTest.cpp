@@ -5,7 +5,7 @@
 // #include "Program.h"
 #include "context.h"
 
-//강원데 openGL강의 
+//강원대 openGL강의 
 //04_graphics_pipeline_and_shader/first_opengl_example 
 
 namespace orgkOpenGL
@@ -76,7 +76,7 @@ namespace orgkOpenGL
         SPDLOG_INFO("OpenGL context version: {}", glVersion);
 
         //shaer test 등 컨텍스트 초기화 부분 context로 이동. 
-        auto context =  Context::create(); 
+        auto context =  Context::Create(); 
         if(!context) {
             SPDLOG_INFO("failed to create context "); 
             glfwTerminate(); 

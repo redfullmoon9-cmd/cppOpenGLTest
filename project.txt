@@ -20,3 +20,60 @@ openGL morden 방식으로 구성하기 위한 새로운 프로젝트
 9. 깃이그노어 파일 올리기: git add .gitignore 
 10  커밋하기 : git commit -m "Docs:Add .gitignore file"
 11. 서버 반영: git push 
+
+
+====================================================
+26.02.27 /home/hotphotatos/cNcppGameDev/CppOpenGLTest
+====================================================
+- 강원대 openGL 테스트 이리 옮겨오고 tankBattleGame에서 제거 하기. 
+    git에 변경 사항 저장. 
+- 강의 들으면서 KShader.cpp/h common.h/cpp 구현 
+
+====================================================
+26.02.28 /home/hotphotatos/cNcppGameDev/CppOpenGLTest
+====================================================
+OpenGL course 03-02： 스마트 포인터와 클래스 디자인 계속 진행. 
+
+- 에러 발생 KShader.hpp 에서 " KShader() {} "에서 {} 생략.. -->구현이 링크 단계에서 없다는 에러 발생. 
+    undefined reference 에러는 링커 에러입니다. 컴파일은 됐지만 링크 단계에서 KShader::KShader() 
+    (기본 생성자)의 구현을 찾지 못한 것입니다.
+
+- KShader 폴더에 있는 vs나 fs 없다는 에러 발생. build에 카피 하는 방식으로 cmakeLists.txt 변경. 
+
+
+====================================================
+26.03.01 /home/hotphotatos/cNcppGameDev/CppOpenGLTest
+====================================================
+
+OpenGL course 03-03： Program과 화면에 점찍기 강의 계속 듣고 코드 테스트 진행. 
+- 파일 읽어오지 못하는 문제; -- 다른 파일을 simple.fs vs를 example로 잘못 명시. 파일 못찾음. 
+    페도라의 파일 시스템 오류 -- 아마도 업데이트 않되어 있거나 업데이트후 껏다가 켜야 하는 문제 일수도. 
+- core dump -- 실행했을때 별다른 이상 없음. 왜 문제가 났을까?
+    Fedora가 백그라운드에서 libstdc++ 또는 관련 패키지를 업데이트했는데, 실행 중인 프로세스들은 이전 버전을 
+    메모리에 올린 채 유지되고 있었을 가능성이 .. 껏다 키니 문제 해결 특히 현재 경로 가져오는 문제 해결. 
+
+    # 패키지 업데이트 후에는 재부팅 권장
+    sudo dnf update
+    sudo reboot
+
+    # 또는 업데이트된 라이브러리를 사용하는 서비스만 재시작
+    sudo systemctl daemon-reexec
+
+- Program.h, cpp 작성. 
+- context.h, cpp 작성 openGL 관련 리소스 생성 /해제.  
+    undefined reference to `Context::Create()' 에러. 
+    <링크에러에 대한 이유와 해결 방법>
+    새 파일을 추가한 후 CMake를 재실행해야 합니다:  
+    file(GLOB_RECURSE SOURCES "src/*.cpp" "src/*.c")에서 GLOB_RECURSE 은 딱 한번 cmake .. 을 실행하는 순간 
+    src 목록에서 파일을 읽어옴. 그러나 스튜디오 안에 있는 버튼은 make만 실행하므로 파일이 추가된 경우 알지 못함. 
+
+- 쉐이더 변경 이후 vs fs 파일등을 변경한 경우 적용되지 않는 문제. 
+    현재는 build 안에 KShader/아래에 저장되는 방식.. 
+    변경>소스 경로를 직접 읽어서 참조 하는 방식.  인텔리센스 에러 발생. 
+     "configurations": [
+        {
+            "name": "MinGW64",
+            "configurationProvider": "ms-vscode.cmake-tools", // 이줄을 추가해 주어야 함. 
+        } 
+
+     ] 
