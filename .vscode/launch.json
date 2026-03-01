@@ -8,7 +8,7 @@
             "program": "${workspaceFolder}/build/CppGraphic", 
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}",
+            "cwd": "${workspaceFolder}/build",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
@@ -19,7 +19,7 @@
                     "ignoreFailures": true
                 }
             ],
-            "preLaunchTask": "CMake: build" // tasks.json의 label과 일치해야 함
+            "preLaunchTask": "CMake: build"
         }
     ]
 }
