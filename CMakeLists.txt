@@ -21,4 +21,13 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/i
 target_link_libraries(${PROJECT_NAME} OpenGL::GL glfw)
 
 # file(COPY resources DESTINATION ${CMAKE_BINARY_DIR})
-# file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/resources DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+# file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/KShader DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+# add_custom_command(
+#     TARGET ${PROJECT_NAME} POST_BUILD
+#     COMMAND ${CMAKE_COMMAND} -E copy_directory
+#         ${CMAKE_CURRENT_SOURCE_DIR}/KShader
+#         $<TARGET_FILE_DIR:${PROJECT_NAME}>/KShader
+#     COMMENT "Copying KShader files..."
+# )
+
+target_compile_definitions(${PROJECT_NAME} PRIVATE SHADER_DIR="${CMAKE_CURRENT_SOURCE_DIR}/KShader/" )
