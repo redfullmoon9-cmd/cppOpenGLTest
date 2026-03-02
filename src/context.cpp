@@ -1,0 +1,94 @@
+#include "context.h"
+
+std::unique_ptr<Context>  Context::Create()
+{
+    auto context = std::unique_ptr<Context> (new Context()); 
+    if(!context->Init()){
+        return nullptr; 
+    }
+
+    return std::move(context); 
+}
+
+bool Context::Init()
+{
+
+    float vertices[]={
+        //삼각형 두개를 합처서 그린다. 첫번째 사각형. 
+        0.5f, 0.5f, 0.0f,  //top right
+        0.5f, -0.5f, 0.0f,   //bottom right
+        -0.5f, -0.5f, 0.0f,  //bottem left
+        -0.5f, 0.5f, 0.0f  //top left 
+    }; 
+
+    uint32_t indices[] ={
+        0, 1, 3, // first trialge 
+        1, 2, 3  // second 
+    }; 
+
+    glGenVertexArrays(1, &m_vertexArrayObject); //VAO 생성. 
+    glBindVertexArray(m_vertexArrayObject); //사용할 VAO 설정. 
+
+    m_vertexBuffer = Buffer::CreateWithData(GL_ARRAY_BUFFER, GL_STATIC_DRAW, vertices, sizeof(float)*12); 
+
+    /* buffer 클래스 refactoring
+    glGenBuffers(1, &m_vertexBuffer); //VBO
+    glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer); 
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float)* 12, vertices, GL_STATIC_DRAW); //지정된 버퍼에 데이터를 복사. 
+    */
+
+    //(N) 정점 attribute중 n번째를 사용하도록 설정. KShaer/simple.vs 
+    //ayout (location = 0) in vec3 aPos; 내에 location =0 의 0에 해당하는 값
+
+    glEnableVertexAttribArray(0); 
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float)*3, 0); 
+
+    m_indesBuffer =Buffer::CreateWithData(GL_ELEMENT_ARRAY_BUFFER, GL_STATIC_DRAW, indices, sizeof(uint32_t)*6); 
+    
+    /** index buffer --> buffer class   
+    glGenBuffers(1, &m_indexBuffer); 
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indexBuffer); 
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint32_t)*6, indices, GL_STATIC_DRAW); 
+    */
+
+
+    //cmakelists.txt에 구성되어 있는 파일의 위치에서 읽어 오는 방식으로 수정. 
+    // -- 갱신시에 build패스에 있는 KShader을 참조하는 문제 때문에..
+    std::shared_ptr<KShader> vertexShader = KShader::CreateFromFile(SHADER_DIR "simple.vs", GL_VERTEX_SHADER); 
+    std::shared_ptr<KShader> fragmentShader = KShader::CreateFromFile(SHADER_DIR "simple.fs", GL_FRAGMENT_SHADER);
+
+    //create가 성공하면 포인터로 값이 전달되고 없다면 nullptr이 들어 있다. 
+    // std::shared_ptr<KShader> vertexShader = KShader::CreateFromFile("KShader/simple.vs", GL_VERTEX_SHADER); 
+    // std::shared_ptr<KShader> fragmentShader =KShader::CreateFromFile("KShader/simple.fs", GL_FRAGMENT_SHADER); 
+    
+    if(!vertexShader || !fragmentShader ){
+        return false; 
+    } 
+    
+    SPDLOG_INFO("vertex shader id {}", vertexShader->Get()); // 포인터 주소 -->
+    SPDLOG_INFO("fragment shader id {}", fragmentShader->Get()); 
+    
+    m_program =Program::Create({fragmentShader, vertexShader }); 
+    if(!m_program){
+        return false; 
+    }
+    SPDLOG_INFO("program id :{}", m_program->Get()); 
+    glClearColor(0.1f, 0.2f, 0.3f, 0.0f);
+    
+    return true;
+}
+
+void Context::Render()
+{
+    glClear(GL_COLOR_BUFFER_BIT);
+    glPointSize(10.f); // 포인트 크기를 
+    // glUseProgram(m_program->Get()); 
+    m_program->Use(); 
+    // glDrawArrays(GL_POINTS, 0, 1);  
+    // glDrawArrays(GL_TRIANGLES, 0, 3);  
+    // glDrawArrays(GL_LINE_STRIP, 0, 4);  //점 4개를 연결한 삼각형. 
+    // glDrawArrays(GL_TRIANGLES, 0, 6);//점 6개를 그려서 삼각형 2개를 그린다.   
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); //정점 4개와 인덱스를 이용한 사각형. 
+
+
+}
