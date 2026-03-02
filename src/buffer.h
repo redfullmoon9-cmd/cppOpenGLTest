@@ -14,7 +14,6 @@ class Buffer{
         uint32_t m_buffer{0}; 
         uint32_t m_bufferType{0};
         uint32_t m_usage{0};
-
 };
 
 #endif //__BUFFER_H__

@@ -1,17 +1,16 @@
 #include "common.h"
 #include "Program.h"
 
-ProgramUPtr Program::Create(const std::vector<KShaderPtr> &shaders)
+std::unique_ptr<Program> Program::Create(const std::vector<KShaderPtr> &shaders)
 {
-    auto program = ProgramUPtr(new Program()); 
+    auto program = std::unique_ptr<Program> (new Program()); 
     if(!program->Link(shaders)){
         return nullptr; 
     }
     return std::move(program); 
 }
 
-
-bool Program::Link(const std::vector<KShaderPtr> &shaders)
+bool Program::Link(const std::vector<std::shared_ptr<KShader>> &shaders)
 {
     m_program =glCreateProgram(); // 
     for(auto& shader:shaders){
@@ -34,4 +33,9 @@ bool Program::Link(const std::vector<KShaderPtr> &shaders)
 Program::~Program()
 {
     if(m_program) glDeleteProgram(m_program); 
+}
+
+void Program::Use() const
+{
+    glUseProgram(m_program); 
 }

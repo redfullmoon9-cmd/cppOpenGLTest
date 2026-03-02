@@ -5,7 +5,7 @@ project(${PROJECT_NAME})
 set(CMAKE_CXX_STANDARD 17)
 
 # 1. 소스 파일들을 리스트로 만들기 (source 폴더 내의 모든 cpp)
-file(GLOB_RECURSE SOURCES "src/*.cpp" "src/*.c")
+file(GLOB_RECURSE SOURCES "src/*.cpp" "src/*.c" "msrc/*.cpp")
    
 # 2. 패키지 찾기 
 find_package(OpenGL REQUIRED)
@@ -20,7 +20,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/i
 # 5. 라이브러리 연결
 target_link_libraries(${PROJECT_NAME} OpenGL::GL glfw)
 
-# file(COPY resources DESTINATION ${CMAKE_BINARY_DIR})
+# 소스파일을 메이크 수행시에 /build 경로로 복사하는 방식 
 # file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/KShader DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 # add_custom_command(
 #     TARGET ${PROJECT_NAME} POST_BUILD
@@ -29,5 +29,5 @@ target_link_libraries(${PROJECT_NAME} OpenGL::GL glfw)
 #         $<TARGET_FILE_DIR:${PROJECT_NAME}>/KShader
 #     COMMENT "Copying KShader files..."
 # )
-
+# 쉐이더 파일 의 경로를 소스에서 참조 하도록 하는 방식으로 변경. 
 target_compile_definitions(${PROJECT_NAME} PRIVATE SHADER_DIR="${CMAKE_CURRENT_SOURCE_DIR}/KShader/" )
