@@ -7,7 +7,7 @@ std::unique_ptr<Program> Program::Create(const std::vector<KShaderPtr> &shaders)
     if(!program->Link(shaders)){
         return nullptr; 
     }
-    return std::move(program); 
+    return std::move(program); //C++17 부터 필요 없다고 C++ 11 하위 호완성. 
 }
 
 bool Program::Link(const std::vector<std::shared_ptr<KShader>> &shaders)

@@ -10,7 +10,7 @@ namespace myOpenGL{
     }
     int myMain(){
         auto controller  =Controller::CreateController("game test", 800, 600); 
-        if(controller != nullptr){
+        if(controller){
             controller->Run(); 
         }
         return 0; 

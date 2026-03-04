@@ -1,16 +1,34 @@
 #include "controller.h"
 
+//callback함수. --화면의 사이즈가 변경되면 이벤트가 발생하고 이 함수로 들어온다. 
+void frambufferSize_Callback(GLFWwindow *window, int width, int height)
+{
+    SPDLOG_INFO(" Frame buffer change, {} , {}", width, height); 
+    glViewport(0, 0, width, height); 
+}
+
+void keyevent_Callback(GLFWwindow*window, int key, int code, int action, int mode){
+    if( key == GLFW_KEY_ESCAPE && action == GLFW_PRESS){
+        SPDLOG_INFO(" key {}, scan {}, action {}", key, code, 
+            action == GLFW_PRESS ? " Pressed":  
+            action == GLFW_RELEASE ? " Released": 
+            action == GLFW_REPEAT ? " Repeat" : "Unknown"); 
+        glfwSetWindowShouldClose(window, GLFW_TRUE); 
+    }
+}
+
 std::unique_ptr<Controller> Controller::CreateController(const std::string& title, const int width, const int height)
 {
     auto controller = std::unique_ptr<Controller> (new Controller()); 
-    if(controller){
-        controller->Init(title, width, height); 
+    if(controller && controller->Init(title, width, height) < 0){
+        return nullptr; 
     }
     return std::move(controller);
 }
 
 int Controller::Init(const std::string &title, const int width, const int height)
 {
+    
     SPDLOG_INFO(" myOpenGL start "); 
     if(!glfwInit()){
         const char* errorlog =nullptr; 
@@ -49,6 +67,10 @@ int Controller::Init(const std::string &title, const int width, const int height
 
 void Controller::Run()
 {
+    uint32_t wWidth =800, wHeight=600; 
+    frambufferSize_Callback(m_window, wWidth, wHeight); 
+    glfwSetFramebufferSizeCallback(m_window, frambufferSize_Callback); //const int& 에서 기본형으로 변경 에러 없어짐. 
+    glfwSetKeyCallback(m_window, keyevent_Callback); 
     
     SPDLOG_INFO("Main loop start {}", (void*)m_window); 
     while(!glfwWindowShouldClose(m_window)){
@@ -73,3 +95,5 @@ Controller::~Controller()
 {
     glfwTerminate(); 
 }
+
+
