@@ -4,6 +4,7 @@
 #include "common.h"
 #include "Program.h"
 #include "buffer.h"
+#include "vertex_layout.h"
 
 // CLASS_PTR(Context)
 class Context{
@@ -21,8 +22,10 @@ class Context{
         std::unique_ptr<Buffer> m_vertexBuffer; 
         
         // uint32_t m_indexBuffer; 
-        std::unique_ptr<Buffer> m_indesBuffer; 
-        uint32_t m_vertexArrayObject; 
+        std::unique_ptr<Buffer> m_indexBuffer; 
+
+        // uint32_t m_vertexArrayObject; -- vertexLayout 클래스로 대체 
+        std::unique_ptr<VertexLayout> m_vertexlayout; 
 }; 
 
 #endif //__CONTEXT_H__

@@ -26,8 +26,10 @@ bool Context::Init()
         1, 2, 3  // second 
     }; 
 
-    glGenVertexArrays(1, &m_vertexArrayObject); //VAO 생성. 
-    glBindVertexArray(m_vertexArrayObject); //사용할 VAO 설정. 
+    // glGenVertexArrays(1, &m_vertexArrayObject); //VAO 생성. -- vertexLayout으로 
+    // glBindVertexArray(m_vertexArrayObject); //사용할 VAO 설정. 
+    m_vertexlayout =VertexLayout::Create(); 
+
 
     m_vertexBuffer = Buffer::CreateWithData(GL_ARRAY_BUFFER, GL_STATIC_DRAW, vertices, sizeof(float)*12); 
 
@@ -40,16 +42,17 @@ bool Context::Init()
     //(N) 정점 attribute중 n번째를 사용하도록 설정. KShaer/simple.vs 
     //ayout (location = 0) in vec3 aPos; 내에 location =0 의 0에 해당하는 값
 
-    glEnableVertexAttribArray(0); 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float)*3, 0); 
+    // glEnableVertexAttribArray(0); 
+    // glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float)*3, 0); 
+    m_vertexlayout->setAttribute(0, 3, GL_FLOAT, GL_FALSE, sizeof(float)*3, 0); 
 
-    m_indesBuffer =Buffer::CreateWithData(GL_ELEMENT_ARRAY_BUFFER, GL_STATIC_DRAW, indices, sizeof(uint32_t)*6); 
     
     /** index buffer --> buffer class   
-    glGenBuffers(1, &m_indexBuffer); 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indexBuffer); 
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint32_t)*6, indices, GL_STATIC_DRAW); 
-    */
+     glGenBuffers(1, &m_indexBuffer); 
+     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indexBuffer); 
+     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint32_t)*6, indices, GL_STATIC_DRAW); 
+     */
+   m_indexBuffer =Buffer::CreateWithData(GL_ELEMENT_ARRAY_BUFFER, GL_STATIC_DRAW, indices, sizeof(uint32_t)*6); 
 
 
     //cmakelists.txt에 구성되어 있는 파일의 위치에서 읽어 오는 방식으로 수정. 
@@ -73,6 +76,13 @@ bool Context::Init()
         return false; 
     }
     SPDLOG_INFO("program id :{}", m_program->Get()); 
+
+    //쉐이더 파일에서 uniform 값을 읽어옴. 
+    auto loc =glGetUniformLocation(m_program->Get(),"color" ); //sinple.fs의 uniform 변수의 이름. 
+    m_program->Use();
+    glUniform4f(loc, 1.0f, 1.0f, 0.0f, 1.0f);  //color란 변수가 있는 곳에 loc에 float 값 1.0f, 1.0f ... 등의 값을 입력  
+
+
     glClearColor(0.1f, 0.2f, 0.3f, 0.0f);
     
     return true;
@@ -81,14 +91,21 @@ bool Context::Init()
 void Context::Render()
 {
     glClear(GL_COLOR_BUFFER_BIT);
-    glPointSize(10.f); // 포인트 크기를 
+    // glPointSize(10.f); // 포인트 크기를 
     // glUseProgram(m_program->Get()); 
+ 
+    static float time =0.0f ;
+    float t= sinf(time) *0.5f + 0.5f; 
+    auto loc =glGetUniformLocation(m_program->Get(), "color"); 
     m_program->Use(); 
+    glUniform4f(loc, t*t, 2.0f *t*(1.0f-t), (1.0f-t)*(1.0f-t), 1.0f); 
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); //정점 4개와 인덱스를 이용한 사각형. 
+
+    time += 0.016f; 
     // glDrawArrays(GL_POINTS, 0, 1);  
     // glDrawArrays(GL_TRIANGLES, 0, 3);  
     // glDrawArrays(GL_LINE_STRIP, 0, 4);  //점 4개를 연결한 삼각형. 
     // glDrawArrays(GL_TRIANGLES, 0, 6);//점 6개를 그려서 삼각형 2개를 그린다.   
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); //정점 4개와 인덱스를 이용한 사각형. 
 
 
 }

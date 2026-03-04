@@ -7,6 +7,8 @@
 
 //강원대 openGL강의 
 //04_graphics_pipeline_and_shader/first_opengl_example 
+//common context 로 분리
+// shader, program, buffer, vertex_layout 분리 
 
 namespace orgkOpenGL
 {
