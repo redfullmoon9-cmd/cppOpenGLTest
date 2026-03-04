@@ -101,4 +101,21 @@ openGL자원을 사용해서 GPU에 메모리 누수를 막고 객체 생성의 
     생성자는 반환값을 줄 수 없기에 객체 생성의 실패를 확인 할 수 없다. 반면 createFromFile는 nullptr을 리턴해서 
     실패을 null인지로 확인 할 수 있다. 
 
-2. RAII (Resource Acquisition Is Initialization) 초기화와 동시에     
+2. RAII (Resource Acquisition Is Initialization) 초기화와 동시에 자원 확보. - 게임엔진 설계에서 중요.    
+
+오픈지엘 강의 앞부분 다시 들으며 OpenGL course 02-03： 첫 OpenGL 윈도우_RR
+GraphicMyTest.cpp내에 Refactoring 진행 
+controller.h /cpp   작성. 
+
+====================================================
+26.03.03 /home/hotphotatos/cNcppGameDev/CppOpenGLTest
+====================================================
+- openGL 강의 앞부분 반복 :OpenGL course 03-04： 삼각형 그리기_R -vertex_layout.h/cpp 
+    VertexArrayObject 분리해서 별도 관리. buffer, program, 
+- OpenGL course 04-01： GLSL
+- Bleder 강의 /실습
+
+
+====================================================
+26.03.04 /home/hotphotatos/cNcppGameDev/CppOpenGLTest
+====================================================
