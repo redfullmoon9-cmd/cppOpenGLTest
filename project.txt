@@ -104,8 +104,7 @@ openGL자원을 사용해서 GPU에 메모리 누수를 막고 객체 생성의 
 2. RAII (Resource Acquisition Is Initialization) 초기화와 동시에 자원 확보. - 게임엔진 설계에서 중요.    
 
 오픈지엘 강의 앞부분 다시 들으며 OpenGL course 02-03： 첫 OpenGL 윈도우_RR
-GraphicMyTest.cpp내에 Refactoring 진행 
-controller.h /cpp   작성. 
+GraphicMyTest.cpp내에 Refactoring 진행 controller.h /cpp   작성.-->코드 복습차원. 
 
 ====================================================
 26.03.03 /home/hotphotatos/cNcppGameDev/CppOpenGLTest
@@ -119,3 +118,36 @@ controller.h /cpp   작성.
 ====================================================
 26.03.04 /home/hotphotatos/cNcppGameDev/CppOpenGLTest
 ====================================================
+- openGL 강의 OpenGL course 04-01： GLSL_R --> vertex_layout 마무리. 
+- shaer 코드 변경해서 per_vertex_color 읽어오도록 변경. 
+- 유니티 강의 /실습. 
+
+
+====================================================
+26.03.05 /home/hotphotatos/cNcppGameDev/CppOpenGLTest
+====================================================
+-- 코드 복습차원 /msrc내의 GraphicMyTest 다시 refactoring 진행. 
+OpenGL course 03-01： 그래픽스 파이프라인_R 강의 다시 복습. 
+    현재) 원도우 glfw초기화 하고 glad로 라이브러리로 openGL라이브러리 불러오기까지 작성. 
+    to do > 뭘먼져 해야? -- VBO, VAO작성해서 일단생성하고 테스트 해야. -- 작성 -->shader가 있어야 ?? --> 반듯이 있어야..함. 
+
+<내용 정리>
+   graphics pipline - openGL 2.0 이후에 변화, 닥 단계 geometric, resterization등 각단계 마다.프로그래머가  
+   프로그램으로 원하는 방식으로 그릴 수 있도록함. 이렇게 될때 각 단계마다 GPU상에서 실행되는 작은 프로그램을 Shader라고 함. 
+   결국 오픈지엘로 뭔가를 그린다는 것은 쉐이더 프로램을 작성해서 이를 GPU에 올려서 실행하는 것을 의미 하게됨. 
+
+   openGL 3.0 core profile이 도입되면서 GLSL 필수로 자리 잡음. 그러나 표준은 아님. 우리가 그리고 싶은 정점의 위치는 넣어두는 쉐이더. 
+   버텍스 정보를 가지고 있는 것이 vertex shader 버텍스 쉐이이더 
+   픽셀별로 실행되는 쉐이더를  픽셀쉐이더, 프레그먼트 쉐이더라고 함.따라서 이 두개의 쉐이더 없이는 그래픽 파이프라인을 만들수 없음. 
+
+   순서는 shader파일을 작성 glsl --> 쉐이더프로그램에서 읽어온후 프로그램안에서 컴파일 하고 링크함.그래서 현대적인 그래픽스 파이프라인을 
+   구성하려면 shaer파일을 구현 해야함. 
+ 
+
+====================================================
+26.03.06 /home/hotphotatos/cNcppGameDev/CppOpenGLTest
+====================================================
+OpenGL course 03-01： 그래픽스 파이프라인_R 강의 다시 복습 하면서 shader다시 작성 연습. 코드 이해 하면서 
+common.h 대신에 heaer.h, KShader 대신에 MyShader 등으로 구성. 
+    - shader가 가져야할 구성 쉐이더 파일을 가져 와서 컴파일하고 링크하는 기능을 가져야... 
+    - tankBattleGame에서 shader 클래스 설계구성 분석. 
