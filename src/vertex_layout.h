@@ -3,9 +3,15 @@
 
 #include "common.h"
 
-// CLASS_PTR(VertexLayout)
-/** Vertext Array Object 관리 클래스  */
+/**  context로부터 관심사별 분리: VAO 관리클래스
+ *   Vertext Array Object 관리 클래스  
+ *   glGenVertexArrays(1, &m_vertexArrayObject); 
+ *   glBindVertexArray()
+ *   glEnableVertexAttribArray(attribueIndex); 
+ *   glVertexAttribPointer(attribueIndex, count, type, normalized, stride, (const void*)offset); 
+ */
 
+// CLASS_PTR(VertexLayout)
 class VertexLayout{
 public:
     static std::unique_ptr<VertexLayout> Create(); 
