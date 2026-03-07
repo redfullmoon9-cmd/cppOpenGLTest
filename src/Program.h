@@ -3,6 +3,16 @@
 
 #include "common.h"
 #include "KShader.h"
+
+/** 프로그램과 쉐이더를 연결 
+ *  glCreateProgram()
+ *  glAttachShader()
+ *  glLinkProgram()
+ *  glGetProgramiv()
+ *  glUseProgram()
+ *  glDeleteProgram()
+ */
+
 CLASS_PTR(Program); 
 class Program{
     public:
