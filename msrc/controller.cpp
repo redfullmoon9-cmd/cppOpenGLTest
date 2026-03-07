@@ -74,10 +74,23 @@ int Controller::Init(const std::string &title, const int width, const int height
 
     glGenBuffers(1, &VBO); //VBO 생성
     glBindBuffer(GL_ARRAY_BUFFER, VAO); //생성한 VBO연결.  
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float)*6, vertices, GL_STATIC_DRAW); //gpu로 버텍스 배열정보 전달. 
+    //gpu로 버텍스 배열정보 전달. 
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float)*6, vertices, GL_STATIC_DRAW); 
 
-    m_vertexShader=MyShader::ShaderCreate("KShader/simple.vs", GL_VERTEX_SHADER);  
+    //두개의 쉐이더 vertex shader와 fragment 쉐이더를 작성한다. 
+    // 이후 프로그램이 두개의 쉐이더를 atttach 하고 link 
+    // KShader/simple.vs 파일은 실행경로인 build/KShader/simple.vs에서 읽어온다. 
+    m_vertexShaderPtr=MyShader::ShaderCreate("KShader/simple.vs", GL_VERTEX_SHADER);  
+    m_fragmentShaderPtr=MyShader::ShaderCreate("KShader/simple.fs", GL_FRAGMENT_SHADER); 
     
+    if(!m_vertexShaderPtr || !m_fragmentShaderPtr) {
+        return -1; 
+    }
+
+    m_myprogramPtr=MyProgram::ProgramCreate({m_fragmentShaderPtr, m_vertexShaderPtr}); 
+    if(!m_myprogramPtr) return -1; 
+
+    SPDLOG_INFO(" program id {}", m_myprogramPtr->GetProgram()); 
 
     return 1; 
 }
@@ -95,13 +108,15 @@ void Controller::Run()
         glfwSwapBuffers(m_window); 
         glfwPollEvents(); 
     }
-
 }
 
 void Controller::Render()
 {
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
+    glPointSize(10.f); 
+    glUseProgram(m_myprogramPtr->GetProgram()); 
+    glDrawArrays(GL_POINTS, 0, 1); 
 }
 
 void Controller::Get()
