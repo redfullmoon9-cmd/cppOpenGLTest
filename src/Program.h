@@ -10,7 +10,7 @@
  *  glLinkProgram()
  *  glGetProgramiv()
  *  glUseProgram()
- *  glDeleteProgram()
+ *  glDeleteProgram()  
  */
 
 CLASS_PTR(Program); 

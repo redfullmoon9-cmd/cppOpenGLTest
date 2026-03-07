@@ -14,7 +14,7 @@ class MyShader{
 public:
     static std::unique_ptr<MyShader> ShaderCreate(const std::string& fileName, GLenum shaderType); 
     ~MyShader(); 
-
+    uint32_t GetShader(){ return m_shader; }; 
 private:
     bool ShaderInit(const std::string& fileName, GLenum shaderType); 
     MyShader(){}
