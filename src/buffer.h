@@ -2,6 +2,14 @@
 #define __BUFFER_H__
 
 #include "common.h"
+
+/** 버퍼관리.  
+ * glGenBuffers();
+ * glBindBuffer(); 
+ * glBufferData();  
+ * 
+*/
+
 class Buffer{
     public:
         static std::unique_ptr<Buffer> CreateWithData(uint32_t bufferType, uint32_t usage, const void* data, size_t dataSize ); 
