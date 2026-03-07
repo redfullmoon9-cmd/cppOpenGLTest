@@ -1,5 +1,12 @@
 #include "controller.h"
 
+
+float vertices[6] = { //삼각형 좌표 정보. 
+    -0.5f, -0.5f,
+    0.0f,  0.5f,
+    0.5f, -0.5f,
+};
+
 //callback함수. --화면의 사이즈가 변경되면 이벤트가 발생하고 이 함수로 들어온다. 
 void frambufferSize_Callback(GLFWwindow *window, int width, int height)
 {
@@ -61,6 +68,16 @@ int Controller::Init(const std::string &title, const int width, const int height
     //리턴값 GLubyte*를 형변환해서 출력 해야.  (void*)로 캐스팅하면 포인터 주소값 출력. 
     auto openglVersion = glGetString(GL_VERSION); 
     SPDLOG_INFO("glversion :{}", reinterpret_cast<const char*>(openglVersion) ); 
+
+    glGenVertexArrays(1, &VAO); // VAO를 생성
+    glBindVertexArray(VAO); //생성한 VAO를 연결. 
+
+    glGenBuffers(1, &VBO); //VBO 생성
+    glBindBuffer(GL_ARRAY_BUFFER, VAO); //생성한 VBO연결.  
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float)*6, vertices, GL_STATIC_DRAW); //gpu로 버텍스 배열정보 전달. 
+
+    m_vertexShader=MyShader::ShaderCreate("KShader/simple.vs", GL_VERTEX_SHADER);  
+    
 
     return 1; 
 }
