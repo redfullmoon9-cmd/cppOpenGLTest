@@ -5,6 +5,7 @@
 #include "Program.h"
 #include "buffer.h"
 #include "vertex_layout.h"
+#include "texture.h"
 
 // CLASS_PTR(Context)
 
@@ -41,6 +42,12 @@ class Context{
         uint32_t m32_vertexArrayObject{0}; 
         uint32_t m32_vertexBuffer{0}; 
         uint32_t m32_indexBuffer{0}; 
+
+        //텍스쳐 아이디 받아오는
+        uint32_t m32_texture{ 0 };
+        std::unique_ptr<Texture> m_texturePtr;
+        //하나의 텍스쳐를 또 사용하기   
+        std::unique_ptr<Texture> m_texturePtr2;  
 }; 
 
 #endif //__CONTEXT_H__

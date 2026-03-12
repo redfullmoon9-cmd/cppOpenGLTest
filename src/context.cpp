@@ -1,4 +1,5 @@
 #include "context.h"
+#include "image.h"
 
 std::unique_ptr<Context>  Context::Create()
 {
@@ -15,13 +16,20 @@ std::unique_ptr<Context>  Context::Create()
 bool Context::Init()
 {
 
-    float vertices[]={
-        //삼각형 두개를 합처서 그린다. 첫번째 사각형. 
-        0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f,    //top right red, 
-        0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,    //bottom right
-        -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, //bottem left
-        -0.5f, 0.5f, 0.0f,  1.0f, 1.0f, 0.0f //top left  yellow 
-    }; 
+    // float vertices[]={
+    //     //삼각형 두개를 합처서 그린다. 첫번째 사각형. 
+    //     0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f,    //top right red, 
+    //     0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,    //bottom right
+    //     -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, //bottem left
+    //     -0.5f, 0.5f, 0.0f,  1.0f, 1.0f, 0.0f //top left  yellow 
+    // }; 
+    //텍스쳐를 사용하기 위해서 xyz rgb 텍스텨 코디네이터 값
+    float vertices[] = {
+        0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f,
+        0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+        -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+        -0.5f, 0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+    };
 
     uint32_t indices[] ={
         0, 1, 3, // first trialge 
@@ -30,21 +38,24 @@ bool Context::Init()
 
     m_vertexlayout =VertexLayout::Create(); //VAO 설정 
 
-    //vertices를 buffer에 복사.  
-    m_vertexBuffer = Buffer::CreateWithData(GL_ARRAY_BUFFER, GL_STATIC_DRAW, vertices, sizeof(float)*24); 
+    //vertices를 buffer에 복사.  vertices에 따라 값이 조정되어야. 
+    // m_vertexBuffer = Buffer::CreateWithData(GL_ARRAY_BUFFER, GL_STATIC_DRAW, vertices, sizeof(float)*24); 
+    m_vertexBuffer = Buffer::CreateWithData(GL_ARRAY_BUFFER, GL_STATIC_DRAW, vertices, sizeof(float)*32); //4개의 점에 8개씩.  
 
     // m_vertexlayout->setAttribute(0, 3, GL_FLOAT, GL_FALSE, sizeof(float)*3, 0); //attribue 를 1개에서 2개를 설정하는 것으로 변경. 
-    // 몇번째 attriute 인가                   노말라이즈여부  건널뛸 바이트    초기 옵셋값
-    m_vertexlayout->setAttribute(0, 3, GL_FLOAT, GL_FALSE, sizeof(float)*6, 0); //attribue 0번 설정. 
-    m_vertexlayout->setAttribute(1, 3, GL_FLOAT, GL_FALSE, sizeof(float)*6, sizeof(float)*3); //attribue 1번 설정. 
+    // 몇번째 attriute 인가  몇차원   노말라이즈여부  건널뛸 바이트    초기 옵셋값
+    //어트리뷰트별로 하나씩 서정해야함. 
+    m_vertexlayout->setAttribute(0, 3, GL_FLOAT, GL_FALSE, sizeof(float)*8, 0); //attribue 0번 설정. -- 점의 좌표 
+    m_vertexlayout->setAttribute(1, 3, GL_FLOAT, GL_FALSE, sizeof(float)*8, sizeof(float)*3); //attribue 1번 설정. -현재는 rgb값
+    m_vertexlayout->setAttribute(2, 2, GL_FLOAT, GL_FALSE, sizeof(float)*8, sizeof(float)*6); //attribue 2번 설정.-- 코디네어터 값 
 
     m_indexBuffer =Buffer::CreateWithData(GL_ELEMENT_ARRAY_BUFFER, GL_STATIC_DRAW, indices, sizeof(uint32_t)*6); 
 
 
     //cmakelists.txt에 구성되어 있는 파일의 위치에서 읽어 오는 방식으로 수정. 
     // -- 갱신시에 build패스에 있는 KShader을 참조하는 문제 때문에..
-    std::shared_ptr<KShader> vertexShader = KShader::CreateFromFile(SHADER_DIR "per_vertex_color.vs", GL_VERTEX_SHADER); 
-    std::shared_ptr<KShader> fragmentShader = KShader::CreateFromFile(SHADER_DIR "per_vertex_color.fs", GL_FRAGMENT_SHADER);
+    std::shared_ptr<KShader> vertexShader = KShader::CreateFromFile(SHADER_DIR "texture.vs", GL_VERTEX_SHADER); 
+    std::shared_ptr<KShader> fragmentShader = KShader::CreateFromFile(SHADER_DIR "texture.fs", GL_FRAGMENT_SHADER);
 
     //create가 성공하면 포인터로 값이 전달되고 없다면 nullptr이 들어 있다. 
     if(!vertexShader || !fragmentShader ){
@@ -59,8 +70,32 @@ bool Context::Init()
         return false; 
     }
     SPDLOG_INFO("program id :{}", m_program->Get()); 
-    glClearColor(0.1f, 0.2f, 0.3f, 0.0f);
+    glClearColor(0.0f, 0.1f, 0.3f, 0.0f);
     
+    // 이미지 파일 읽어오는 것 대신에 만들기 테스트 
+    // auto image =Image::Create(512, 512); 
+    // image->SetCheckImage(16, 16); 
+    
+    //이미지 파일 읽어오기 
+    auto image=Image::Load("KImage/container.jpg"); 
+    if(!image) return false; 
+    SPDLOG_INFO("image {}x{}, {} channels ", image->GetWidth(), image->GetHeight(), image->GetChannelCount()); 
+    
+    /** texture관련 코드들 리펙토링으로 이동 */
+    //유니크 포인터에 get을 사용하면 쌩포인터 얻어옮. 
+    m_texturePtr=Texture::CreateFromImage(image.get()); 
+
+    auto image2=Image::Load("KImage/awesomeface.png"); 
+    m_texturePtr2= Texture::CreateFromImage(image2.get()); 
+
+    glActiveTexture(GL_TEXTURE0); //텍스처 슬롯번호를 알려줌. 0번 슬롯. 
+    glBindTexture(GL_TEXTURE_2D, m_texturePtr->Get());     
+    glActiveTexture(GL_TEXTURE1); 
+    glBindTexture(GL_TEXTURE_2D, m_texturePtr2->Get());     
+
+    m_program->Use(); 
+    glUniform1i(glGetUniformLocation(m_program->Get(), "tex"), 0); 
+    glUniform1i(glGetUniformLocation(m_program->Get(), "tex2"), 1); 
     return true;
 }
 
@@ -97,7 +132,7 @@ bool Context::InitRef()
      //인덱스 버퍼를 사용해서 두개의 삼각형의 공통지점으로 그린다ㅑ. 
      glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint32_t)*6, indices, GL_STATIC_DRAW); 
      
-
+ 
     //cmakelists.txt에 구성되어 있는 파일의 위치에서 읽어 오는 방식으로 수정. 
     // -- 갱신시에 build패스에 있는 KShader을 참조하는 문제 때문에..
     //create가 성공하면 포인터로 값이 전달되고 없다면 nullptr이 들어 있다. 

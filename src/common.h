@@ -7,6 +7,7 @@
 #include <optional>
 #include <string>
 #include <memory>
+// #include <stb/stb_image.h>
 
 //일종의 매크로 인데 std::unique_ptr<Shader> 같은 형태를 줄여 쓰기 위해서 
 #define CLASS_PTR(klassName)\
