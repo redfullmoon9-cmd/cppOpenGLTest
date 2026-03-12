@@ -18,11 +18,13 @@ void Texture::Bind() const
     glBindTexture(GL_TEXTURE_2D, m_texture); //사용하고자 하는 텍스쳐 바인딩. 
 }
 
-//각종 파라미터 세팅. - 텍스쳐 필터와 래핑방식등
+//각종 파라미터 세팅. - 텍스쳐 필터와 래핑방식등-- 문제 받은 것을 사용하지 않고 
+//하드 코딩을 하고 있음. 
 void Texture::SetFilter(uint32_t minFilter, uint32_t magFilter) const
 {
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); 
+    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); 이전 코드 는 그냥 하드코딩. 
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter); 
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter); 
 }
 
 void Texture::SetWrap(uint32_t swrap, uint32_t twrap) const
@@ -59,8 +61,8 @@ void Texture::SetTextureFromImage(const Image *image)
     //format -GL_RGB(입력하는 이미지의 픽셀 포맷) 
     //type- GL_UNSIGNED_BYTE (입력 하는 이미지의 채널별 데이터 타입) 
     //data - image->GetData() (이미지 데이터가 기록된 메모리 주소)
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->GetWidth(), image->GetHeight(), 
-        0, GL_RGB, GL_UNSIGNED_BYTE, image->GetData());  
+    glTexImage2D(GL_TEXTURE_2D, 0, format, image->GetWidth(), image->GetHeight(), 
+        0, format, GL_UNSIGNED_BYTE, image->GetData());  
         
     //작은 이미지를 만들어 준다. 
     glGenerateMipmap(GL_TEXTURE_2D); 
