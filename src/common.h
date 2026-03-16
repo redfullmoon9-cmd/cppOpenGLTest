@@ -7,6 +7,9 @@
 #include <optional>
 #include <string>
 #include <memory>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 // #include <stb/stb_image.h>
 
 //일종의 매크로 인데 std::unique_ptr<Shader> 같은 형태를 줄여 쓰기 위해서 

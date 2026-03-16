@@ -96,6 +96,9 @@ bool Context::Init()
     m_program->Use(); 
     glUniform1i(glGetUniformLocation(m_program->Get(), "tex"), 0); 
     glUniform1i(glGetUniformLocation(m_program->Get(), "tex2"), 1); 
+
+    glmTestCode(); 
+
     return true;
 }
 
@@ -193,4 +196,22 @@ void Context::RenderRef()
     // glDrawArrays(GL_LINE_STRIP, 0, 4);  //점 4개를 연결한 삼각형. 
     // glDrawArrays(GL_TRIANGLES, 0, 6);//점 6개를 그려서 삼각형 2개를 그린다.   
 
+}
+
+void Context::glmTestCode()
+{
+    // (1, 0, 0) 이라는 점을 동차좌표계로 설정. 
+    glm::vec4 vec(1.0f, 0.0f, 0.0f, 1.0f); 
+    //단위 행렬 기준으로 (1, 1, 0) 만큼 이동함. 
+    //glm::math4(1.0f) 가 4x4 인 대각행렬을 만들어 내어서 평행 이동하는 vec3 만큼 이동  
+    auto trans = glm::translate(glm::mat4(1.0f), glm::vec3(1.0f, 1.0f, 0.0f)); 
+    //z 축을 기준으로 라디언 값만큼 회전하는 
+    auto rotate =glm::rotate(glm::mat4(1.0f), glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f)); 
+    auto scale = glm::scale(glm::mat4(1.0f), glm::vec3(3.0f)); 
+
+    //각 곱셈은 거꾸로 적용 , scale ->rotate ->trans 순서로 적용됨. 
+    //(1, 0, 0) ->scale  (3, 0, 0) -> z 축 rotate --> (0, 3, 0) -> tran --> (1, 4, 0 ) 
+    vec = trans* rotate * scale * vec; 
+    SPDLOG_INFO("transformed vec:[{} {} {}]", vec.x, vec.y, vec.z); 
+    //[2026-03-16 21:48:22.943] [info] [context.cpp:209] transformed vec:[0.9999999 4 0]
 }

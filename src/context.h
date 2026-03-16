@@ -21,6 +21,7 @@ class Context{
         void Render();
         void RenderRef(); //참조용 코드  
         ~Context(){}
+        void glmTestCode(); //glm 테스트 코드 
     private:
         Context(){}
         bool Init(); 
