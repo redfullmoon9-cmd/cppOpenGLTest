@@ -19,14 +19,11 @@ add_executable(${PROJECT_NAME} main.cpp ${SOURCES})
 include(Dependency.cmake)
 
 # 4. 핵심: include 폴더 경로를 컴파일러에게 알려주기 
-# target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)-->하나로 합치기. 
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include ${DEP_INCLUDE_DIR})
 
 target_link_directories(${PROJECT_NAME} PUBLIC ${DEP_LIB_DIR})
 
 # 5. 라이브러리 연결 glm추가
-# target_link_libraries(${PROJECT_NAME} OpenGL::GL glfw glm::glm) 키워드 문제 생김. 
-# target_link_libraries(${PROJECT_NAME} PUBLIC ${DEP_LIBS})
 target_link_libraries(${PROJECT_NAME} PUBLIC OpenGL::GL glfw glm::glm ${DEP_LIBS})
 
 add_dependencies(${PROJECT_NAME} ${DEP_LIST})
