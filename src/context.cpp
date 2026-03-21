@@ -97,7 +97,14 @@ bool Context::Init()
     glUniform1i(glGetUniformLocation(m_program->Get(), "tex"), 0); 
     glUniform1i(glGetUniformLocation(m_program->Get(), "tex2"), 1); 
 
-    glmTestCode(); 
+    // glmTestCode(); //glm 을 사용하는 테스트 예제 
+    // auto transform =glm::mat4(1.0f); //메트릭스가 단위행렬로 변환 
+    // auto transform =glm::translate( glm::mat4(1.0f), glm::vec3(0.3f, 0.2f, 0.0f)); //메트릭스가 단위행렬로 변환 
+
+    //0.5배 축소수 z축으로 90도 이동하는 예제 
+    auto transform =glm::rotate( glm::scale(glm::mat4(1.0f), glm::vec3(2.0f)), glm::radians(60.f), glm::vec3(0.0f, 0.0f, 1.0f)); 
+    auto transformLoc=glGetUniformLocation(m_program->Get(), "transform"); 
+    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));     
 
     return true;
 }
@@ -198,6 +205,7 @@ void Context::RenderRef()
 
 }
 
+//glm을 사용해서 선형변환하는 예 
 void Context::glmTestCode()
 {
     // (1, 0, 0) 이라는 점을 동차좌표계로 설정. 
