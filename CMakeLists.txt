@@ -1,5 +1,13 @@
 # CMakeLists.txt
 cmake_minimum_required(VERSION 3.14)
+
+# 빌드 타입이 지정되지 않은 경우 Debug로 설정
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE Debug)
+endif()
+
+# message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
+
 set(PROJECT_NAME CppGraphic)
 
 project(${PROJECT_NAME})
@@ -16,7 +24,8 @@ file(GLOB_RECURSE SOURCES "src/*.cpp" "src/*.c" "msrc/*.cpp")
 # 3. 실행 파일 생성 (main.cpp가 루트에 있다면 포함, 소스 리스트 추가)
 add_executable(${PROJECT_NAME} main.cpp ${SOURCES}) 
 
-include(Dependency.cmake)
+include(Dependency.cmake) # 
+# include(ExternalProject) 에서 dependency에 있는 파일 불러오기로 
 
 # 4. 핵심: include 폴더 경로를 컴파일러에게 알려주기 
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include ${DEP_INCLUDE_DIR})

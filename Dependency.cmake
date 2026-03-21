@@ -9,11 +9,12 @@ set(DEP_LIB_DIR ${DEP_INSTALL_DIR}/lib  ${DEP_INSTALL_DIR}/lib64) #페도라는 
 # spdlog: fast logger library
 ExternalProject_Add(
     dep-spdlog
-    GIT_REPOSITORY "https://github.com/gabime/spdlog.git"
-    GIT_TAG "v1.x"
+    # GIT_REPOSITORY "https://github.com/gabime/spdlog.git"
+    # GIT_TAG "v1.x" 
+    URL "${CMAKE_CURRENT_SOURCE_DIR}/external/spdlog" # 로컬경로에서 파일가져와서 설치. 
     GIT_SHALLOW 1  # 커밋 된것과 관계없이 가장 최신의 것만 받는다
-    UPDATE_COMMAND "" 
-    PATCH_COMMAND ""
+    UPDATE_COMMAND "" # 업데이트 방지.  
+    PATCH_COMMAND "" # 패치 방지. 
     # CMAKE_GENERATOR ${CMAKE_GENERATOR} #메인과 동일한 generator 사용하게 됨. 
     CMAKE_ARGS 
         -DCMAKE_INSTALL_PREFIX=${DEP_INSTALL_DIR} 
