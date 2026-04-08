@@ -19,7 +19,7 @@ namespace myOpenGL{
 }
 
 int main(){
-    unsigned int choice =1; 
+    unsigned int choice =2; 
     if(choice ==0){
         return orgjOpenGL::orgJMain();
     }

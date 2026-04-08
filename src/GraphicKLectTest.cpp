@@ -77,7 +77,7 @@ namespace orgkOpenGL
         auto glVersion = reinterpret_cast<const char*>(glGetString(GL_VERSION));
         SPDLOG_INFO("OpenGL context version: {}", glVersion);
 
-        //shaer test 등 컨텍스트 초기화 부분 context로 이동. 
+        //shader test 등 컨텍스트 초기화 부분 context로 이동. 
         auto context =  Context::Create(); 
         if(!context) {
             SPDLOG_INFO("failed to create context "); 

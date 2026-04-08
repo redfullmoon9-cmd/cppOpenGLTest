@@ -22,8 +22,8 @@ public:
     void disableAttribute(int attriuIndex ) const; 
 private:
     VertexLayout() {}
-        void Init(); 
-        uint32_t m_vertexArrayObject{ 0 }; 
+    void Init(); 
+    uint32_t m_vertexArrayObject{ 0 }; 
 }; 
 
 #endif //__VERTEX_LAYOUT_H__

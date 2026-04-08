@@ -44,7 +44,7 @@ bool Context::Init()
 
     // m_vertexlayout->setAttribute(0, 3, GL_FLOAT, GL_FALSE, sizeof(float)*3, 0); //attribue 를 1개에서 2개를 설정하는 것으로 변경. 
     // 몇번째 attriute 인가  몇차원   노말라이즈여부  건널뛸 바이트    초기 옵셋값
-    //어트리뷰트별로 하나씩 서정해야함. 
+    //어트리뷰트별로 하나씩 설정해야함. 
     m_vertexlayout->setAttribute(0, 3, GL_FLOAT, GL_FALSE, sizeof(float)*8, 0); //attribue 0번 설정. -- 점의 좌표 
     m_vertexlayout->setAttribute(1, 3, GL_FLOAT, GL_FALSE, sizeof(float)*8, sizeof(float)*3); //attribue 1번 설정. -현재는 rgb값
     m_vertexlayout->setAttribute(2, 2, GL_FLOAT, GL_FALSE, sizeof(float)*8, sizeof(float)*6); //attribue 2번 설정.-- 코디네어터 값 
