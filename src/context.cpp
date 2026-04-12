@@ -15,14 +15,6 @@ std::unique_ptr<Context>  Context::Create()
 //이전 참조코드 InitRef로 보내고 코드 정리. 
 bool Context::Init()
 {
-
-    // float vertices[]={
-    //     //삼각형 두개를 합처서 그린다. 첫번째 사각형. 
-    //     0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f,    //top right red, 
-    //     0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,    //bottom right
-    //     -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, //bottem left
-    //     -0.5f, 0.5f, 0.0f,  1.0f, 1.0f, 0.0f //top left  yellow 
-    // }; 
     //텍스쳐를 사용하기 위해서 xyz rgb 텍스텨 코디네이터 값
     float vertices[] = {
         0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f,
